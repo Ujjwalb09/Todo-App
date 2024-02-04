@@ -29,7 +29,7 @@ app.post("/createTodo", async (request, res)=>{
      const savedTodo = await Todo.create({
         title: todoBody.title,
         description: todoBody.description,
-        completed: todoBody.completed
+        completed: false
      });
 
      return res.json(savedTodo);
