@@ -3,13 +3,18 @@ const express = require("express");
 const { createTodo, updateTodo } = require("./types");
 const { Todo } = require("./database");
 const app = express();
+const cors = require("cors");
 const port = 3000;
 
 //middleware to parse json
 app.use(express.json());
+app.use(cors({
+  origin: "http://localhost:5173"
+}));
 
 app.post("/createTodo", async (request, res) => {
   const todoBody = request.body;
+  console.log(todoBody);
   const response = createTodo.safeParse(todoBody);
 
   if (!response.success) {
@@ -31,11 +36,18 @@ app.post("/createTodo", async (request, res) => {
     completed: false,
   });
 
-  return res.json(savedTodo);
+  return res.json({
+    message: "Todo Created"
+  });
 });
 
 app.get("/getTodos", async (requesst, response) => {
-  return response.json(await Todo.find());
+  const todos = await Todo.find();
+
+  return response.json({
+    todos
+  });
+
 });
 
 app.put("/markAsDone", async (request, res) => {
