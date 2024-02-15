@@ -14,7 +14,6 @@ app.use(cors({
 
 app.post("/createTodo", async (request, res) => {
   const todoBody = request.body;
-  console.log(todoBody);
   const response = createTodo.safeParse(todoBody);
 
   if (!response.success) {
@@ -52,6 +51,7 @@ app.get("/getTodos", async (requesst, response) => {
 
 app.put("/markAsDone", async (request, res) => {
   const idObject = request.body;
+  console.log(idObject);
   const response = updateTodo.safeParse(idObject);
 
   if (!response.success) {
