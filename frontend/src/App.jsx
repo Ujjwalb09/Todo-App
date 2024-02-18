@@ -13,7 +13,7 @@ function App() {
            const obj = await res.json();
            setTodos(obj.todos);
          })
-    }, 1000)
+    }, 100)
   }, [todos])
 
 

@@ -53,7 +53,6 @@ app.get("/todos", async (requesst, response) => {
 
 app.put("/todos", async (request, res) => {
   const idObject = request.body;
-  console.log(idObject);
   const response = updateTodo.safeParse(idObject);
 
   if (!response.success) {

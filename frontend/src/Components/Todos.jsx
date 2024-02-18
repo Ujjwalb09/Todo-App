@@ -39,7 +39,7 @@ export function Todos({ todos }) {
                   "content-type": "applicaation/json"
                 }
               })
-            }}>Delete</button>
+            }}>Delete 🗑️</button>
           </div>
       })}
     </div>
