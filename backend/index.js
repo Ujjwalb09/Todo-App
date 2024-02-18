@@ -12,35 +12,37 @@ app.use(cors({
   origin: "http://localhost:5173"
 }));
 
-app.post("/createTodo", async (request, res) => {
+app.post("/todos", async (request, res) => {
   const todoBody = request.body;
-  const response = createTodo.safeParse(todoBody);
 
-  if (!response.success) {
-    return res.status(411).json({
-      message: "Invalid input",
+  //exception handling using try and catch if title and description are empty
+  try {
+    const response = createTodo.safeParse(todoBody);
+
+    if (!response.success) {
+      return res.status(411).json({
+        message: "Invalid input",
+      });
+    }
+  
+    const savedTodo = await Todo.create({
+      title: todoBody.title,
+      description: todoBody.description,
+      completed: false,
     });
+  
+    return res.json({
+      message: "Todo Created"
+    });
+  } catch(e){
+      return res.json({
+        message: "Empty todo body"
+      })
   }
-
-  //put todo in database
-  //  const todo = new Todo({
-  //     title: todoBody.title,
-  //     description: todoBody.description,
-  //     completed: todoBody.completed
-  //  })
-
-  const savedTodo = await Todo.create({
-    title: todoBody.title,
-    description: todoBody.description,
-    completed: false,
-  });
-
-  return res.json({
-    message: "Todo Created"
-  });
+  
 });
 
-app.get("/getTodos", async (requesst, response) => {
+app.get("/todos", async (requesst, response) => {
   const todos = await Todo.find();
 
   return response.json({
@@ -49,7 +51,7 @@ app.get("/getTodos", async (requesst, response) => {
 
 });
 
-app.put("/markAsDone", async (request, res) => {
+app.put("/todos", async (request, res) => {
   const idObject = request.body;
   console.log(idObject);
   const response = updateTodo.safeParse(idObject);
@@ -71,5 +73,15 @@ app.put("/markAsDone", async (request, res) => {
 
   return res.status(200).json({ message: "Todo updated" });
 });
+
+app.delete("/todos", async (req, res)=>{
+  const id = req.query.id;
+
+  await Todo.deleteOne({_id: id});
+
+  res.json({
+    message: "Todo deleted"
+  })
+})
 
 app.listen(port);
