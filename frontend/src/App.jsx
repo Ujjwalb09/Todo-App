@@ -2,16 +2,16 @@ import { useEffect, useState } from 'react'
 import './App.css'
 import { CreateTodo } from './Components/CreateTodo'
 import { Todos } from './Components/Todos'
+import axios from 'axios'
 
 function App() {
   const [todos, setTodos] = useState([]);
 
   useEffect(()=>{
     setTimeout(()=>{
-      fetch("http://localhost:3000/todos")
+      axios.get("http://localhost:3000/todos")
          .then(async (res)=>{
-           const obj = await res.json();
-           setTodos(obj.todos);
+           setTodos(res.data.todos);
          })
     }, 100)
   }, [todos])
