@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import axios from 'axios'
 
 export function CreateTodo(){
     //local state variable
@@ -32,12 +33,12 @@ export function CreateTodo(){
             margin: 10
         }} onClick={async ()=>{
             //axios library do this in better way
-            await fetch("http://localhost:3000/todos", {
-                method: "POST",
-                body:JSON.stringify({
+            await axios.post("http://localhost:3000/todos", 
+                JSON.stringify({
                     title:title,
                     description:description
                 }),
+                {
                 headers:{
                     "content-Type": "application/json"
                 }

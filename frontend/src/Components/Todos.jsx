@@ -2,6 +2,7 @@
 /* eslint-disable react/jsx-key */
 
 import {useState} from 'react'
+import axios from 'axios'
 
 export function Todos({ todos }) {
   const [render, setRender] = useState("");
@@ -17,11 +18,11 @@ export function Todos({ todos }) {
             <h2>{todo.description}</h2>
             <button style={styles.button1} onClick={async ()=>{
               if(todo.completed == false){
-                await fetch("http://localhost:3000/todos", {
-                  method: "PUT",
-                  body: JSON.stringify({
+                await axios.put("http://localhost:3000/todos",
+                  JSON.stringify({
                     id: todo._id
                   }),
+                  {
                   headers:{
                     "content-Type": "application/json"
                   }
@@ -33,8 +34,7 @@ export function Todos({ todos }) {
             </button>
 
             <button style={styles.button2} onClick={async ()=>{
-              await fetch(`http://localhost:3000/todos?id=${todo._id}`, {
-                method: "DELETE",
+              await axios.delete(`http://localhost:3000/todos?id=${todo._id}`, {
                 headers: {
                   "content-type": "applicaation/json"
                 }
