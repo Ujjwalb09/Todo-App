@@ -13,7 +13,7 @@ function App() {
          .then(async (res)=>{
            setTodos(res.data.todos);
          })
-    }, 100)
+    }, 1000)
   }, [todos])
 
 
